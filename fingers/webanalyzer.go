@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/kataras/golog"
 	"io/fs"
+	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
@@ -69,6 +70,29 @@ func (w *WebAnalyzer) loadRules(path string) {
 
 }
 
-func (w *WebAnalyzer) match() {
+func (w *WebAnalyzer) match(resp *http.Response) {
+	for _, rule := range w.AllRules {
+		for _, match := range rule.Matches {
+			search := match.Search
+			switch search {
+			case "all":
+				SearchAll(resp)
+			case "body":
+				SearchBody(resp)
 
+			}
+
+		}
+	}
+}
+
+func SearchHeader(header *http.Header) {
+
+}
+func SearchBody(resp *http.Response) {
+
+}
+
+func SearchAll(resp *http.Response) {
+	SearchHeader(&resp.Header)
 }

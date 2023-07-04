@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/urfave/cli/v2"
+	"strings"
 )
 
 var Flag = []cli.Flag{
@@ -26,26 +27,27 @@ var Flag = []cli.Flag{
 	},
 }
 
-// cli.VersionFlag = &cli.BoolFlag{
-// Name:     "version",
-// Aliases:  []string{"v"},
-// Usage:    "print the version",
-// Category: "[Other Options]",
-// }
-// cli.HelpFlag = &cli.BoolFlag{
-// Name:     "help",
-// Aliases:  []string{"h"},
-// Usage:    "show help",
-// Category: "[Other Options]",
-// }
 func UrlHandlerAction(ctx *cli.Context, v string) error {
-	fmt.Println(ctx.Args().First(), v)
+	for i := 0; i < ctx.NArg(); i++ {
+		fmt.Printf("%d: %s\n", i+1, ctx.Args().Get(i))
+	}
+	//fmt.Println("ctx.narg,", ctx.NArg())
+	if strings.Contains(v, ",") {
+		urls := strings.Split(v, ",")
+		Urls = make([]string, len(urls))
+		copy(Urls, urls)
+		for i, url := range Urls {
+			fmt.Println(i, url)
+		}
+	} else if ctx.NArg() > 0 {
+
+	}
 
 	return nil
 
 }
 func OutPutAction(ctx *cli.Context, v string) error {
-	fmt.Println("123", v)
+	fmt.Println("output", v)
 	return nil
 
 }

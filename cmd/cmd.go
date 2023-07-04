@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+	"fmt"
 	"github.com/kataras/golog"
 	"github.com/urfave/cli/v2"
 	"os"
@@ -25,6 +26,9 @@ func Init() {
 		Usage:    "show help",
 		Category: "[Other Options]",
 	}
+	cli.OsExiter = func(code int) {
+		fmt.Println(cli.ErrWriter, "", code)
+	}
 	app := &cli.App{
 		Flags:   Flag,
 		Action:  Action,
@@ -46,6 +50,8 @@ func Action(c *cli.Context) error {
 		log.Infof(msg)
 		time.Sleep(time.Second)
 	}()
+
+	fmt.Println(Urls)
 	return nil
 }
 
